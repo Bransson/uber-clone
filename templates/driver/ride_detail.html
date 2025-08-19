@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Ride {{ ride.id }}{% endblock %}
+{% block content %}
+<div class="card">
+  <div class="card-body">
+    <h4>Ride #{{ ride.id }}</h4>
+    <p><strong>Pickup:</strong> {{ ride.pickup_address }}</p>
+    <p><strong>Dropoff:</strong> {{ ride.dropoff_address }}</p>
+    <p><strong>Status:</strong> {{ ride.status }}</p>
+
+    {% if ride.status == "ACCEPTED" %}
+      <form id="startForm" method="post">
+        {% csrf_token %}
+        <button id="startBtn" class="btn btn-primary">Start Ride</button>
+      </form>
+    {% elif ride.status == "IN_PROGRESS" %}
+      <form id="completeForm" method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+          <label>Final Amount</label>
+          <input name="amount_total" class="form-control" placeholder="e.g. 2500.00" />
+        </div>
+        <button id="completeBtn" class="btn btn-success">Complete Ride</button>
+      </form>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener("DOMContentLoaded", function(){
+  // these forms can call the DRF endpoints or backend views;
+  // for brevity you can implement route endpoints to start/complete rides as in API
+});
+</script>
+{% endblock %}

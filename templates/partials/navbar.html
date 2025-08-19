@@ -1,0 +1,27 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="{% url 'index' %}">Uber Clone</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExampleDefault">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+      <ul class="navbar-nav ms-auto">
+        {% if user.is_authenticated %}
+          <li class="nav-item"><a class="nav-link" href="#">
+            Hello, {{ user.first_name|default:user.username }}
+          </a></li>
+          {% if user.driver_profile %}
+            <li class="nav-item"><a class="nav-link" href="{% url 'driver_dashboard' %}">Driver</a></li>
+          {% endif %}
+          {% if user.customer_profile %}
+            <li class="nav-item"><a class="nav-link" href="{% url 'customer_dashboard' %}">Customer</a></li>
+          {% endif %}
+          <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
+        {% else %}
+          <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Login</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'register' %}">Sign Up</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>

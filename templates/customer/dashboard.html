@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Customer Dashboard{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h3>Customer Dashboard</h3>
+  <a class="btn btn-primary" href="{% url 'request_ride' %}">Request a ride</a>
+</div>
+
+<h5>Active Rides</h5>
+{% if active_rides %}
+  <div class="list-group mb-4">
+    {% for r in active_rides %}
+      <div class="list-group-item">
+        <div class="d-flex justify-content-between">
+          <div>
+            <strong>#{{ r.id }}</strong> {{ r.pickup_address }} → {{ r.dropoff_address }}
+            <div class="small text-muted">Status: {{ r.status }}</div>
+          </div>
+          <div>
+            {% if r.status != "COMPLETED" %}
+              <a class="btn btn-sm btn-outline-primary" href="{% url 'ride_status' r.riderequest_set.first.id %}">Track</a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% else %}
+  <p class="text-muted">No active rides.</p>
+{% endif %}
+
+<h5>Recent Requests</h5>
+<ul class="list-group">
+  {% for req in requests %}
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+      <div>
+        <strong>#{{ req.id }}</strong> {{ req.pickup_address }} → {{ req.dropoff_address }}
+        <div class="small text-muted">Status: {{ req.status }} • Requested: {{ req.requested_at }}</div>
+      </div>
+      <div>
+        <a href="{% url 'ride_status' req.pk %}" class="btn btn-sm btn-outline-secondary">Status</a>
+      </div>
+    </li>
+  {% empty %}
+    <li class="list-group-item text-muted">No requests yet.</li>
+  {% endfor %}
+</ul>
+{% endblock %}

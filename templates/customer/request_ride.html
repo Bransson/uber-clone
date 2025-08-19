@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}Request Ride{% endblock %}
+{% block content %}
+<div class="row">
+  <div class="col-md-7">
+    <div class="card">
+      <div class="card-body">
+        <h5>Where to?</h5>
+        <form method="post" id="rideForm">
+          {% csrf_token %}
+          {{ form.pickup_address.label_tag }}
+          {{ form.pickup_address }}
+          <div id="map" style="height: 350px;" class="my-3"></div>
+
+          {{ form.dropoff_address.label_tag }}
+          {{ form.dropoff_address }}
+
+          {{ form.pickup_lat }} {{ form.pickup_lng }} {{ form.dropoff_lat }} {{ form.dropoff_lng }}
+          <div class="mt-3">
+            {{ form.payment_method.label_tag }}
+            {{ form.payment_method }}
+          </div>
+
+          <div class="mt-3">
+            <button class="btn btn-primary">Request Ride</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-5">
+    <div class="card p-3">
+      <h6 class="mb-2">Instructions</h6>
+      <p class="small text-muted">Click on the map to pick pickup and dropoff points. You can edit addresses in the fields above.</p>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  // Map logic will be in static/js/scripts.js; initialize map on this page
+  document.addEventListener("DOMContentLoaded", function(){
+    initRequestMap();
+    attachRideFormSubmit();
+  });
+</script>
+{% endblock %}

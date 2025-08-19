@@ -3,10 +3,11 @@ from django.dispatch import receiver
 from django.apps import apps
 
 from .models import RideRequest, RideRequestStatus, Ride, RideStatus
-from .services import compute_request_estimates, build_matches_for_request
+
 
 @receiver(post_save, sender=RideRequest)
 def on_ride_request_created(sender, instance: RideRequest, created: bool, **kwargs):
+    from .services import compute_request_estimates, build_matches_for_request
     if not created:
         return
     compute_request_estimates(instance)

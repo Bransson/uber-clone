@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Ride Status{% endblock %}
+{% block content %}
+<div class="card">
+  <div class="card-body">
+    <h5>Request #{{ request_obj.id }}</h5>
+    <p class="mb-1"><strong>Pickup:</strong> {{ request_obj.pickup_address }}</p>
+    <p class="mb-1"><strong>Dropoff:</strong> {{ request_obj.dropoff_address }}</p>
+    <p class="mb-1"><strong>Status:</strong> <span id="rr-status">{{ request_obj.status }}</span></p>
+
+    <h6 class="mt-3">Driver Offers / Matches</h6>
+    <div id="matches-list" class="list-group mb-3"></div>
+
+    <div id="ride-info" class="mt-3"></div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  const REQUEST_ID = {{ request_obj.id }};
+  document.addEventListener("DOMContentLoaded", function(){
+    pollRequest();
+    setInterval(pollRequest, 5000);
+  });
+</script>
+{% endblock %}

@@ -147,7 +147,7 @@ def compute_request_estimates(req: RideRequest) -> None:
 # ---- State transitions ----
 
 @transaction.atomic
-def accept_match(match: RideRequestMatch, driver_user) -> Ride:
+def accept_match(match: "RideRequestMatch", driver_user) -> Ride:
     if match.status != MatchStatus.PENDING:
         raise ValidationError("Match is not pending.")
     if match.driver.user_id != driver_user.id:
